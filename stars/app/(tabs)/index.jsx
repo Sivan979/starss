@@ -11,7 +11,6 @@ export default function Index() {
       }}
     >
       <Text>dawg</Text>
-      <Link href="/onboarding">onboarding</Link>
     </View>
   );
 }

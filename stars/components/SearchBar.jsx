@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 
 
-const SearchBar = ({placeholder, onPress}) => {
+const SearchBar = ({placeholder, onPress, onChangeText, value}) => {
   return (
     <View style=
       {{flexDirection: "row",
@@ -19,8 +19,8 @@ const SearchBar = ({placeholder, onPress}) => {
       <TextInput
         onPress={onPress}
         placeholder={placeholder}
-        value=''
-        onChangeText={() => {}}
+        value={value}
+        onChangeText={onChangeText}
         placeholderTextColor= "#a8b5db"
         style={{ flex: 1, marginLeft: 6, color: "white"}}
       />
@@ -31,7 +31,11 @@ const SearchBar = ({placeholder, onPress}) => {
 SearchBar.propTypes = {
     placeholder: PropTypes.string.isRequired,
     onpress: PropTypes.func,
+    value: PropTypes.string,
+    onChangeText:PropTypes.func,
 };
+
+
 
 export default SearchBar
 

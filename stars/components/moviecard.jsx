@@ -3,7 +3,7 @@ import React from 'react'
 import { Link } from 'expo-router'
 import {MovieShape} from '../shapes/shapes.jsx';
 import PropTypes from 'prop-types';
-import { icons } from "@/constants/icons";
+import { icons } from "@/constants/icons.js";
 
 
 const movieCard = ({ movie }) => {

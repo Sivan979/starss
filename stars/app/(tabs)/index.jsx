@@ -8,6 +8,8 @@ import useFetch from "@/services/useFetch";
 import { fetchMovies } from "@/services/api";
 import MovieCard from "@/components/moviecard";
 
+
+
 export default function Index() {
   const router = useRouter();
 

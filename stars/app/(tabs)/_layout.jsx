@@ -1,8 +1,8 @@
 import { View, Text, ImageBackground, Image, ImageBackgroundBase } from 'react-native'
 import React from 'react'
 import {Tabs} from 'expo-router'
-import {images} from '@/constants/images';
-import {icons} from '@/constants/icons'
+import {images} from '../../constants/images';
+import { icons } from "../../constants/icons";
 
 
 const TabIcons = ({focused, icon, title}) => {

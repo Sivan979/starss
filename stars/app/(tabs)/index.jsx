@@ -1,12 +1,12 @@
 import { ActivityIndicator, FlatList, Image, ScrollView, Text, View } from "react-native";
 import { Link } from "expo-router";
-import { images } from "@/constants/images";
-import { icons } from "@/constants/icons";
-import SearchBar from "@/components/SearchBar";
+import {images} from '../../constants/images';
+import { icons } from "../../constants/icons";
+import SearchBar from "../../components/SearchBar";
 import {useRouter} from "expo-router";
-import useFetch from "@/services/useFetch";
-import { fetchMovies } from "@/services/api";
-import MovieCard from "@/components/moviecard";
+import useFetch from "../../services/useFetch";
+import { fetchMovies } from "../../services/api";
+import MovieCard from "../../components/moviecard";
 
 
 

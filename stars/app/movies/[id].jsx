@@ -1,9 +1,11 @@
 import { View, Text, ScrollView,Image, TouchableOpacity , StyleSheet} from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import {router, useLocalSearchParams} from 'expo-router';
 import useFetch from '../../services/useFetch';
 import {fetchMovieDetails} from '../../services/api';
 import { icons } from '../../constants/icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const MovieInfo = ({section, info}) => {
   return(
@@ -14,11 +16,51 @@ const MovieInfo = ({section, info}) => {
   )
 }
 
-const movieDtails = () => {
-  const {id} = useLocalSearchParams();
 
+const movieDtails = () => {
+
+  const {id} = useLocalSearchParams();
   const {data: movie, loading} = useFetch(() => fetchMovieDetails(String(id)))
-  console.log(movie);
+  const [isSaved, setIsSaved] = useState(false);
+
+  // Check if the movie is already saved when movie data is loaded
+  useEffect(() => {
+    const checkIfSaved = async () => {
+      try {
+        const savedMovies = await AsyncStorage.getItem('savedMovies');
+        const movies = savedMovies ? JSON.parse(savedMovies) : [];
+        const found = movies.some(m => m.id === movie.id);
+        setIsSaved(found);
+      } catch (error) {
+        console.error('Error checking saved movies:', error);
+      }
+    };
+    if (movie) {
+      checkIfSaved();
+    }
+  }, [movie]);
+
+  // Toggle saving the movie
+  const toggleSave = async () => {
+    try {
+      const key = 'savedMovies';
+      let savedMovies = await AsyncStorage.getItem(key);
+      let movies = savedMovies ? JSON.parse(savedMovies) : [];
+      if (isSaved) {
+        // Remove the movie if it is already saved
+        movies = movies.filter(m => m.id !== movie.id);
+        setIsSaved(false);
+      } else {
+        // Add the movie if not saved already
+        movies.push(movie);
+        setIsSaved(true);
+      }
+      await AsyncStorage.setItem(key, JSON.stringify(movies));
+    } catch (error) {
+      console.error('Error updating saved movies:', error);
+    }
+  };
+
 
   return (
     <View style={styles.container}>
@@ -50,6 +92,12 @@ const movieDtails = () => {
           </View>
           <MovieInfo section="production_companies" info={movie?.production_companies?.map((g) => g.name).join(' - ') || 'N/A'}/> 
 
+          <TouchableOpacity style={styles.saveBtn} onPress={toggleSave}>
+            <Text style={styles.saveBtnText}>
+              {isSaved ? 'Saved' : 'Save'}
+            </Text>
+          </TouchableOpacity>
+
         </View>
       </ScrollView>
 
@@ -57,6 +105,8 @@ const movieDtails = () => {
         <Image style={{transform: [{ rotate: '180deg' }], }} source={icons.arrow} />
         <Text style={styles.backBtnText}>Back</Text>
       </TouchableOpacity>
+
+
     </View>
   )
 }
@@ -105,6 +155,19 @@ const styles = StyleSheet.create({
   budgetContainer:{
     flexDirection:"row",
     columnGap:70
+  },
+  saveBtn: {
+    backgroundColor: 'green',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    alignSelf: 'center',
+    marginTop: 20,
+  },
+  saveBtnText:{ 
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16
   },
   backBtn:{
     backgroundColor:"white",

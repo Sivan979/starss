@@ -10,8 +10,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const MovieInfo = ({section, info}) => {
   return(
     <View>
-      <Text style={{color: "white", fontWeight:"bold",fontSize:17}}>{section}</Text>
-      <Text style={{color: "#D3D3D3",fontSize:15}}>{info || 'N/A'}</Text>
+      <Text style={styles.sectionTxt}>{section}</Text>
+      <Text style={styles.infoTxt}>{info || 'N/A'}</Text>
     </View>
   )
 }
@@ -112,6 +112,15 @@ const movieDtails = () => {
 }
 
 const styles = StyleSheet.create({
+  sectionTxt:{
+    color: "white",
+    fontWeight:"bold",
+    fontSize:17,
+  },
+  infoTxt:{
+    color: "#D3D3D3",
+    fontSize:15,
+  },
   container:{
     flex: 1,
     backgroundColor: "#0f0D10",

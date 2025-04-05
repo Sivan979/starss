@@ -46,7 +46,7 @@ const saved = () => {
           paddingRight: 5,
           marginBottom:10,
         }}
-        style={{marginTop:70, paddingBottom: 100}}
+        style={styles.flatlistStyles}
 
       />
     </View>
@@ -68,6 +68,10 @@ const styles = StyleSheet.create({
   text:{ 
     color: '#D3D3D3',
     fontWeight: 'bold'
+  },
+  flatlistStyles:{
+    marginTop:70,
+    paddingBottom: 100,
   },
 });
 export default saved

@@ -1,4 +1,4 @@
-import { View, Text ,Image, FlatList, ActivityIndicator} from 'react-native'
+import { View, Text ,Image, FlatList, ActivityIndicator, StyleSheet} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import {images} from '../../constants/images';
 import MovieCard from "../../components/moviecard";
@@ -7,9 +7,11 @@ import { fetchMovies } from "../../services/api";
 import { icons } from "../../constants/icons";
 import SearchBar from "../../components/SearchBar";
 
-const search = () => {
-  const [searchQuery, setSearchQuery] = useState('');
 
+
+const search = () => {
+
+  const [searchQuery, setSearchQuery] = useState('');
   const {data: movies,refetch,reset, loading, error} = useFetch( () => fetchMovies({query: searchQuery}), false )
 
   useEffect(() => {
@@ -21,19 +23,17 @@ const search = () => {
         reset()
       }
     }, 500);
-      
     return () => clearImmediate(timeoutId);
   },[searchQuery]);
 
+
   return (
-    <View style={{flex: 1, backgroundColor: "#0f0D10"}}>
-      <Image style={{flex:1, position:"absolute" ,width: "100%", zIndex:0,  }} resizeMode='cover' source={images.bg}/>
+    <View style={styles.container}>
+      <Image style={styles.backgroundImg} source={images.bg}/>
 
       <FlatList 
         data={movies}
-        renderItem={({item}) => (
-          <MovieCard movie={item}/>
-        )}
+        renderItem={({item}) => ( <MovieCard movie={item}/> )}
         keyExtractor={(item) => item.id.toString()}
         style={{padding: 10}}
         numColumns={3}
@@ -41,8 +41,8 @@ const search = () => {
         contentContainerStyle={{paddingBottom:100}}
         ListHeaderComponent={
           <>
-            <View style={{width:"100%", flexDirection:"row", justifyContent:"center", alignItems:"center", marginTop:80}}>
-              <Image style={{width: 40,  marginBottom: 20,}} source={icons.logo}/>
+            <View style={styles.logoImgContainer}>
+              <Image style={styles.logo} source={icons.logo}/>
             </View>
 
             <View style={{marginVertical:20}}>
@@ -54,16 +54,16 @@ const search = () => {
             </View>
             {
               loading && (
-                <ActivityIndicator size="large" color="#0000ff" style={{marginTop: 50, alignSelf: "center"}} />
+                <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIcon} />
               )
             }
 
             {error && (
-              <Text style={{color:"red",  marginVertical:18}}>Error: {error.message}</Text>
+              <Text style={styles.errorTxt}>Error: {error.message}</Text>
             )}
 
             {!loading && !error && searchQuery.trim() && movies?.length > 0 && (
-              <Text style={{fontSize: 17, color:"white", fontWeight:"bold"}}>
+              <Text style={styles.searchedTxt}>
                 Search Results for {''}
                 <Text style={{color:"magenta"}}>{searchQuery}</Text>
               </Text>
@@ -72,8 +72,8 @@ const search = () => {
         }
         ListEmptyComponent={
           !loading && !error ? (
-            <View style={{marginTop: 40,}}>
-              <Text style={{color:"gray", textAlign:"center"}}>
+            <View style={styles.emptyTxtContainer}>
+              <Text style={styles.emptyTxt}>
                 {searchQuery.trim() ? 'No movies found' : 'search for a movie'}
               </Text>
             </View>
@@ -84,5 +84,53 @@ const search = () => {
     </View>
   )
 }
+
+
+
+const styles = StyleSheet.create({
+  container:{
+    flex: 1,
+    backgroundColor: "#0f0D10",
+  },
+  backgroundImg:{
+    flex:1,
+    position:"absolute",
+    width: "100%",
+    zIndex:0,
+    resizeMode:"cover",
+  },
+  logoImgContainer:{
+    width:"100%",
+    flexDirection:"row",
+    justifyContent:"center",
+    alignItems:"center",
+    marginTop:80,
+  },
+  logo:{
+    width: 40,
+    marginBottom: 20,
+  },
+  loadingIcon:{
+    marginTop: 50,
+    alignSelf: "center",
+  },
+  errorTxt:{
+    color:"red",
+    marginVertical:18,
+  },
+  searchedTxt:{
+    fontSize: 17,
+    color:"white",
+    fontWeight:"bold",
+  },
+  emptyTxtContainer:{
+    marginTop: 40,
+  },
+  emptyTxt:{
+    color:"gray",
+    textAlign:"center",
+  },
+
+});
 
 export default search

@@ -25,7 +25,6 @@ const TabIcons = ({focused, icon, title}) => {
             </ImageBackground>
         )
     }
-    
     return(
         <View style={{ marginTop: 10, justifyContent:"center", alignItems:"center", width:"100%", height:"100%"}}>
             <Image source={icon} style={{tintColor: "#ddd",}}/>
@@ -78,9 +77,6 @@ const _layout = () => {
                 <TabIcons focused={focused} icon={icons.save} title="Saved" />
             ) }}       
         />
-
-        
-
     </Tabs>
   )
 }

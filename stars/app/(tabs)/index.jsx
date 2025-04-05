@@ -1,5 +1,4 @@
-import { ActivityIndicator, FlatList, Image, ScrollView, Text, View } from "react-native";
-import { Link } from "expo-router";
+import { ActivityIndicator, FlatList, Image, ScrollView, Text, View, StyleSheet } from "react-native";
 import {images} from '../../constants/images';
 import { icons } from "../../constants/icons";
 import SearchBar from "../../components/SearchBar";
@@ -11,36 +10,33 @@ import MovieCard from "../../components/moviecard";
 
 
 export default function Index() {
-  const router = useRouter();
 
+  const router = useRouter();
   const { data: movies, loading: moviesLoading, error:moviesError} = useFetch( () => fetchMovies({query: ''}))
 
   return (
-    <View style={{
-      flex: 1,
-      backgroundColor: "#0f0D10",
-    }}
-    >
-      <Image style={{position: "absolute", width: "100%", zIndex: 0,}} source={images.bg} />
-      <ScrollView style={{flex: 1, padding: 5}} showsVerticalScrollIndicator={false} contentContainerStyle={{ minHeight: "100%", paddingBottom: 10}}>
-        <Image style={{width: 40, marginTop: 80, marginBottom: 20, marginHorizontal: "auto"}} source={icons.logo} />
+    <View style={styles.container}>
+
+      <Image style={styles.backgroundImg} source={images.bg} />
+      <ScrollView style={styles.scrollview} showsVerticalScrollIndicator={false} contentContainerStyle={{ minHeight: "100%", paddingBottom: 10}}>
+        <Image style={styles.logo} source={icons.logo} />
 
         {moviesLoading ? (
           <ActivityIndicator 
             size= "large"
             color= "#0000ff"
-            style={{marginTop: 50, alignSelf: "center"}}
+            style={styles.loadingIcon}
           />
           ) : moviesError ? (
             <Text>Error: {moviesError?.message}</Text>
           ) : (
-          <View style={{flex: 1, marginTop: 20,}}>
+          <View style={styles.contentContainer}>
             <SearchBar
               onPress = {() => router.push("/search")}
               placeholder = "search for a movie"
             />
             <>
-              <Text style={{marginTop:20, marginBottom: 12 ,fontWeight: "bold", color:"white"}}>Latest Movies</Text>
+              <Text style={styles.latestMoviesText}>Latest Movies</Text>
               <FlatList
                 data={movies}
                 renderItem={({item}) => (
@@ -55,7 +51,7 @@ export default function Index() {
                   marginBottom:10,
                 }}
                 scrollEnabled={false}
-                style={{marginTop:10, paddingBottom: 100}}
+                style={styles.flatlistStyles}
               />
             </>
           </View>
@@ -65,3 +61,44 @@ export default function Index() {
     </View>
   );
 }
+
+
+const styles = StyleSheet.create({
+  container:{
+    flex: 1,
+    backgroundColor: "#0f0D10",
+  },
+  backgroundImg:{
+    position: "absolute",
+    width: "100%",
+    zIndex: 0,
+  },
+  scrollview:{
+    flex: 1,
+    padding: 5,
+  },
+  logo:{
+    width: 40,
+    marginTop: 80,
+    marginBottom: 20,
+    marginHorizontal: "auto",
+  },
+  loadingIcon:{
+    marginTop: 50,
+    alignSelf: "center",
+  },
+  contentContainer:{
+    flex: 1,
+    marginTop: 20,
+  },
+  latestMoviesText:{
+    marginTop:20,
+    marginBottom: 12,fontWeight: "bold",
+    color:"white",
+  },
+  flatlistStyles:{
+    marginTop:10,
+    paddingBottom: 100,
+  },
+
+});

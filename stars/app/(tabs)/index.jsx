@@ -12,7 +12,7 @@ import MovieCard from "../../components/moviecard";
 export default function Index() {
 
   const router = useRouter();
-  const { data: movies, loading: moviesLoading, error:moviesError} = useFetch( () => fetchMovies({query: ''}))
+  const { data: movies, loading, error} = useFetch( () => fetchMovies({query: ''}))
 
   return (
     <View style={styles.container}>
@@ -21,14 +21,14 @@ export default function Index() {
       <ScrollView style={styles.scrollview} showsVerticalScrollIndicator={false} contentContainerStyle={{ minHeight: "100%", paddingBottom: 10}}>
         <Image style={styles.logo} source={icons.logo} />
 
-        {moviesLoading ? (
+        {loading ? (
           <ActivityIndicator 
             size= "large"
             color= "#0000ff"
             style={styles.loadingIcon}
           />
-          ) : moviesError ? (
-            <Text>Error: {moviesError?.message}</Text>
+          ) : error ? (
+            <Text>Error: {error?.message}</Text>
           ) : (
           <View style={styles.contentContainer}>
             <SearchBar
@@ -78,10 +78,12 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   logo:{
-    width: 40,
+    width: 50,
+    height:50,
     marginTop: 80,
     marginBottom: 20,
     marginHorizontal: "auto",
+    borderRadius:40,
   },
   loadingIcon:{
     marginTop: 50,

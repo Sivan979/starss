@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
   icon:{ 
     height: 28,
     width: 30,
-    marginBottom: 10
+    marginBottom: 10,
+    tintColor:"#DAA520",
   },
   text:{ 
     color: '#D3D3D3',

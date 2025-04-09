@@ -2,11 +2,13 @@
 //or maybe like fetch movie details , etc
 import {useEffect, useState} from 'react';
 
-const useFetch = <T>(fetchFunction: () => Promise<T>, autoFetch = true) => {
 
-    const [data, setData] = useState<T | null>(null);
+
+const useFetch = (fetchFunction , autoFetch = true) => {
+
+    const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<Error | null>(null);
+    const [error, setError] = useState(null);
 
     const fetchData = async () => {
         try{

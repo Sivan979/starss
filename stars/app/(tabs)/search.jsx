@@ -12,7 +12,7 @@ import SearchBar from "../../components/SearchBar";
 const search = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
-  const {data: movies,refetch,reset, loading, error} = useFetch( () => fetchMovies({query: searchQuery}), false )
+  const {data: movies, refetch, reset, loading, error} = useFetch( () => fetchMovies({query: searchQuery}), false )
 
   useEffect(() => {
     //we use settimeout so we do not make a new request each time we type a new letter in the searchbar
@@ -107,8 +107,11 @@ const styles = StyleSheet.create({
     marginTop:80,
   },
   logo:{
-    width: 40,
+    width: 50,
+    height:50,
     marginBottom: 20,
+    marginHorizontal: "auto",
+    borderRadius:40,
   },
   loadingIcon:{
     marginTop: 50,

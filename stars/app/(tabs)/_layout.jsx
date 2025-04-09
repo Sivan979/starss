@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     width:"100%",
     flex: 1, 
     flexDirection: "row", 
-    minWidth: 110, 
+    minWidth: 132, 
     minHeight: 53,
     marginTop: 12, 
     justifyContent:"center", 

@@ -22,7 +22,6 @@ const movieDtails = () => {
   const {id} = useLocalSearchParams();
   const {data: movie, loading} = useFetch(() => fetchMovieDetails(String(id)))
   const [isSaved, setIsSaved] = useState(false);
-
   // Check if the movie is already saved when movie data is loaded
   useEffect(() => {
     const checkIfSaved = async () => {
@@ -40,7 +39,7 @@ const movieDtails = () => {
     }
   }, [movie]);
 
-  // Toggle saving the movie
+  
   const toggleSave = async () => {
     try {
       const key = 'savedMovies';
@@ -73,14 +72,23 @@ const movieDtails = () => {
 
           <View style={styles.infoUpper}>
             <Text style={styles.movieTitle}>{movie?.title}</Text>
-            <View style={styles.dateContainer}>
-              <Text style={{color: "#D3D3D3"}}>{movie?.release_date?.split('-')[0]}</Text>
-              <Text style={{color: "#D3D3D3", marginLeft:10}}>{movie?.runtime}m</Text>
-            </View>
-            <View style={styles.voteContainer}>
-              <Image source={icons.star} />
-              <Text style={{color: "#D3D3D3"}}>{Math.round(movie?.vote_average ?? 0)}/10</Text>
-              <Text style={{color: "#D3D3D3", marginLeft:10}}>({movie?.vote_count}) votes</Text>
+            <View style={styles.dateSaveContainer}>
+              <View>
+                <View style={styles.dateContainer}>
+                  <Text style={{color: "#D3D3D3"}}>{movie?.release_date?.split('-')[0]}</Text>
+                  <Text style={{color: "#D3D3D3", marginLeft:10}}>{movie?.runtime}m</Text>
+                </View>
+                <View style={styles.voteContainer}>
+                  <Image source={icons.star} />
+                  <Text style={{color: "#D3D3D3"}}>{Math.round(movie?.vote_average ?? 0)}/10</Text>
+                  <Text style={{color: "#D3D3D3", marginLeft:10}}>({movie?.vote_count}) votes</Text>
+                </View>
+              </View>
+              <TouchableOpacity style={styles.saveBtn} onPress={toggleSave}>
+                {isSaved ? <Image style={styles.saved} source={icons.saved} />
+                  : <Image style={styles.save} source={icons.save} />
+                }
+              </TouchableOpacity>
             </View>
           </View>
           
@@ -91,12 +99,6 @@ const movieDtails = () => {
             <MovieInfo section="Revenue" info={`$${Math.round(movie?.revenue / 1000000)} million`}/> 
           </View>
           <MovieInfo section="production_companies" info={movie?.production_companies?.map((g) => g.name).join(' - ') || 'N/A'}/> 
-
-          <TouchableOpacity style={styles.saveBtn} onPress={toggleSave}>
-            <Text style={styles.saveBtnText}>
-              {isSaved ? 'Saved' : 'Save'}
-            </Text>
-          </TouchableOpacity>
 
         </View>
       </ScrollView>
@@ -142,6 +144,12 @@ const styles = StyleSheet.create({
   infoUpper:{
     rowGap: 5,
   },
+  dateSaveContainer:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width:"100%"
+  },
   movieTitle:{
     fontWeight:"bold",
     color: "white",
@@ -157,7 +165,6 @@ const styles = StyleSheet.create({
     alignItems:"center",
     backgroundColor:"blue",
     paddingHorizontal:3,
-    width:"100%",
     paddingVertical:2,
     borderRadius:8,
   },
@@ -168,15 +175,19 @@ const styles = StyleSheet.create({
   saveBtn: {
     backgroundColor: 'green',
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     borderRadius: 25,
     alignSelf: 'center',
-    marginTop: 20,
   },
-  saveBtnText:{ 
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 16
+  save:{
+    height:28,
+    width: 20,
+    tintColor:"yellow",
+  },
+  saved:{
+    height:28,
+    width: 20,
+    tintColor: "yellow",
   },
   backBtn:{
     backgroundColor:"white",

@@ -1,4 +1,6 @@
 {
+  "homepage": "https://sivan979.github.io/starss",
+
   "name": "stars",
   "main": "expo-router/entry",
   "version": "1.0.0",
@@ -9,7 +11,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "jest": {
     "preset": "jest-expo"
